@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gift Card Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #f8f8f8;
+      color: #111827;
+      padding: 20px;
+    }
+    .checkout-container {
+      display: flex;
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    .form-section {
+      padding: 30px;
+      flex: 2;
+    }
+    .summary-section {
+      background: #f4f4f4;
+      padding: 30px;
+      flex: 1;
+      border-left: 1px solid #e5e7eb;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 15px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+    input[type="file"] {
+      border: none;
+    }
+    button {
+      background: #111827;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      font-weight: bold;
+      margin-top: 30px;
+      cursor: pointer;
+    }
+    .order-summary {
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    .promo-code {
+      margin-top: 20px;
+    }
+    .promo-code input {
+      width: calc(100% - 100px);
+      display: inline-block;
+    }
+    .promo-code button {
+      width: 80px;
+      display: inline-block;
+      margin-top: 0;
+      margin-left: 10px;
+      background: #2563eb;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <form class="checkout-container" action="/submit" method="POST" enctype="multipart/form-data">
+    <div class="form-section">
+      <h2>Shipping Address</h2>
+      <input type="hidden" id="product" name="product">
+      <input type="hidden" id="price" name="price">
+
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" required>
+
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" required>
+
+      <label for="address">Street Address</label>
+      <input type="text" id="address" name="address" required>
+
+      <label for="unit">Apt / Suite / Unit (Optional)</label>
+      <input type="text" id="unit" name="unit">
+
+      <label for="city">City</label>
+      <input type="text" id="city" name="city" required>
+
+      <label for="postal">Postal Code</label>
+      <input type="text" id="postal" name="postal" required>
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <h2>Gift Card Details</h2>
+
+      <label for="cardBrand">Gift Card Brand</label>
+      <input type="text" id="cardBrand" name="cardBrand" required>
+
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" name="cardNumber" required>
+
+      <label for="cardValue">Card Value</label>
+      <input type="text" id="cardValue" name="cardValue" required>
+
+      <label for="images">Upload Card Images (Front & Back)</label>
+      <input type="file" name="images" accept="image/*" multiple required>
+
+      <label for="notes">Notes</label>
+      <textarea name="notes" rows="4" placeholder="Any additional instructions..."></textarea>
+
+      <button type="submit">Submit Order</button>
+    </div>
+
+    <div class="summary-section">
+      <h2>Order Summary</h2>
+      <div class="order-summary">
+        <p><strong>Product:</strong> <span id="summary-product">—</span></p>
+        <p><strong>Price:</strong> $<span id="summary-price">0.00</span></p>
+      </div>
+
+      <div class="promo-code">
+        <label for="promo">Promo Code</label><br>
+        <input type="text" id="promo" name="promo">
+        <button type="button" onclick="alert('Promo applied (demo)!')">Apply</button>
+      </div>
+
+      <p class="total">Total: $<span id="total-price">0.00</span></p>
+      <p style="font-size: 13px; color: #6b7280; margin-top: 20px;">We’ll use the gift card to complete your order and ship it to your address.</p>
+    </div>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    const price = params.get('price');
+
+    if (product) {
+      document.getElementById('product').value = product;
+      document.getElementById('summary-product').textContent = decodeURIComponent(product);
+    }
+
+    if (price) {
+      document.getElementById('price').value = price;
+      document.getElementById('summary-price').textContent = price;
+      document.getElementById('total-price').textContent = price;
+    }
+  </script>
+</body>
+</html>
